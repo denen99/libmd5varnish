@@ -1,0 +1,8 @@
+This is a library that can be loaded into Varnish for exposing an md5 hash function.  I had a need to call an md5 function on a string and stuff it into a Req header, so I wrote this library and figured out how to integrate it into Varnish.  
+
+
+To use this library you must take the following steps:
+
+1 - Run "make all" to build the library 
+2 - Copy the example from the md5.vcl file in this repo and make sure the path to libmd5varnish.so is in the right place
+3 - Use (char*)md5_hash()  via inline C wherever you need to call an MD5 hash 
