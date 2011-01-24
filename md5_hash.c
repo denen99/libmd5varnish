@@ -1,6 +1,4 @@
 /*
-  Copyright (C) 2002 Aladdin Enterprises.  All rights reserved.
-
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
   arising from the use of this software.
@@ -17,27 +15,6 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 
-  L. Peter Deutsch
-  ghost@aladdin.com
-
- */
-/* $Id: md5main.c,v 1.1 2002/04/13 19:20:28 lpd Exp $ */
-/*
-  Independent implementation of MD5 (RFC 1321).
-
-  This code implements the MD5 Algorithm defined in RFC 1321, whose
-  text is available at
-	http://www.ietf.org/rfc/rfc1321.txt
-  The code is derived from the text of the RFC, including the test suite
-  (section A.5) but excluding the rest of Appendix A.  It does not include
-  any code or documentation that is identified in the RFC as being
-  copyrighted.
-
-  The original and principal author of md5.c is L. Peter Deutsch
-  <ghost@aladdin.com>.  Other authors are noted in the change history
-  that follows (in reverse chronological order):
-
-  2002-04-13 lpd Splits off main program into a separate file, md5main.c.
  */
 
 #include "md5.h"
@@ -45,7 +22,6 @@
 #include <stdio.h>
 #include <string.h>
 
-/* Run the self-test. */
 char * md5_hash(char * md5_string)
 {
   int status = 0;
