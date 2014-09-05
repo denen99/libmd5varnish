@@ -32,7 +32,12 @@ load_module()
 sub vcl_recv { 
 
  C{
-     VRT_SetHdr(sp, HDR_REQ, "\006X-MD5:", (*md5_hash)("some string of choice"), vrt_magic_string_end);
+     /*memory will be allocated via malloc*/
+     const char* md5Hex = (*md5_hash)("some string of choice");
+     
+     VRT_SetHdr(sp, HDR_REQ, "\006X-MD5:", md5Hex, vrt_magic_string_end);
+     /*lets free allocated memory to avoid memory leak. VRT_SetHdr will copy MD5 string using srt_cpy*/
+     free((char*)md5Hex); 
   }C
 
 
