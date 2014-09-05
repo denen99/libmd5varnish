@@ -21,14 +21,18 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
+/*
+	you must free memory after result usage using free(void*)
+*/
 char * md5_hash(char * md5_string)
 {
   int status = 0;
 
 	md5_state_t state;
 	md5_byte_t digest[16];
-	static char hex_output[16*2 + 1];
+	char* hex_output = malloc(16*2 + 1);
 	int di;
 
 	md5_init(&state);

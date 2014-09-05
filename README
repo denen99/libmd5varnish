@@ -6,3 +6,5 @@ To use this library you must take the following steps:
 1 - Run "make all" to build the library 
 2 - Copy the example from the md5.vcl file in this repo and make sure the path to libmd5varnish.so is in the right place
 3 - Use (char*)md5_hash()  via inline C wherever you need to call an MD5 hash 
+
+Example for Varnish 4 you can find inside md5_v4.vcl. In Varnish 4 you must enable -p vcc_allow_inline_c=true to enable inline C, which is disabled by default.

@@ -1,4 +1,5 @@
-#Add the following to your vcl file 
+#Add the following to your Varnish 4 vcl file
+#In varnish 4 inlice C disabled by default. You must enable it using -p vcc_allow_inline_c=true 
 
 C{
   #include <dlfcn.h>
@@ -31,14 +32,22 @@ load_module()
 #
 sub vcl_recv { 
 
- C{
-     /*memory will be allocated via malloc*/
-     const char* md5Hex = (*md5_hash)("some string of choice");
-     
-     VRT_SetHdr(sp, HDR_REQ, "\006X-MD5:", md5Hex, vrt_magic_string_end);
-     /*lets free allocated memory to avoid memory leak. VRT_SetHdr will copy MD5 string using srt_cpy*/
-     free((char*)md5Hex); 
-  }C
+    C{
+        //\6X-MD5: - \6 is length of string in octal encoding
+        static const struct gethdr_s VGC_HDR_REQ_VARNISH_X_MD5 = {
+            HDR_REQ, "\6X-MD5:"
+        };
+
+
+        static const struct gethdr_s VGC_HDR_REQ_VARNISH_X_DIGEST = {
+            HDR_REQ, "\24X-MD5-Digest-String:"
+        };
+
+        char* md5DigestString = VRT_GetHdr(ctx, &VGC_HDR_REQ_VARNISH_X_DIGEST);
+        const char* calculatedMD5 = (*md5_hash)(md5DigestString);
+        VRT_SetHdr(ctx, &VGC_HDR_REQ_VARNISH_X_MD5, calculatedMD5, vrt_magic_string_end);
+        free((char*)calculatedMD5);
+    }C
 
 
 }
